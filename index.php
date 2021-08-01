@@ -73,7 +73,7 @@
         return $counter;
     };
 
-    $result1 = dalybaBeLiekanos(15);
+    $result1 = dalybaBeLiekanos(7);
 
     echo $result1;
 
@@ -143,36 +143,132 @@
     elementai yra atsitiktiniai skaičiai nuo 0 iki 10, o paskutinis masyvas, kuris generuojamas pagal tokią pat salygą 
     kaip ir pirmasis masyvas. Viską pakartokite atsitiktinį nuo 10 iki 30  kiekį kartų. Paskutinio masyvo paskutinis elementas yra lygus 0;*/  
     echo "<h3>Septinta užduotis</h3>";
-    function createArray($elementNumber){
-        $emptyArray = [];
-        for ($i=0; $i < $elementNumber; $i++) { 
-            $random = rand(0, 10);
-            $emptyArray[$i] = $random;
+    // function createArray($elementNumber){
+    //     $emptyArray = [];
+    //     for ($i=0; $i < $elementNumber; $i++) { 
+    //         $random = rand(0, 10);
+    //         $emptyArray[$i] = $random;
+    //     };
+    //     return $emptyArray;
+    // };
+
+    // $arr = [];
+
+    // $arr = createArray(rand(10, 20));
+
+    // print_r($arr);
+
+    // echo "<hr>";
+
+    // $counter = count($arr);
+
+    // $lastArray = [];
+
+    // $lastArray = createArray(rand(10, 30));
+
+    // $counter1 = count($lastArray);
+
+    // $lastArray[count($lastArray)] = 0;
+
+    // $arr[$counter] = $lastArray;
+
+    // print_r($arr);
+
+    function recursive($times){
+        if ($times > 0) {
+            $arr = [];
+            $random = rand(10, 20);
+            for ($i=0; $i < $random - 1; $i++) { 
+                $arr[] = rand(0,10);
+            };
+            $arr[] = recursive($times - 1);
+        } else {
+            $arr[] = 0;
         };
-        return $emptyArray;
+        return $arr;
     };
 
-    $arr = [];
+    $result7 = recursive(rand(10, 20));
 
-    $arr = createArray(rand(10, 20));
+    print_r($result7);
 
-    print_r($arr);
+    /* 8. Suskaičiuokite septinto uždavinio elementų, kurie nėra masyvai, sumą. Skaičiuoti reikia visuose masyvuose ir submasyvuose.*/
+    
+    echo "<h3>Aštunta užduotis</h3>";
+    function elementuSuma($input){
+
+        if (!is_array($input)) {
+            return $input;
+        };
+
+        $counter = count($input);
+        $suma = 0;
+        for ($i=0; $i < $counter; $i++) { 
+            if (is_array($input[$i])) {
+                $suma += elementuSuma($input[$i]);
+            } else {
+                // echo $input[$i]. " ,";
+                $suma += $input[$i];
+            }
+        };
+
+        return $suma;
+    };
+
+    $result8 = elementuSuma($result7);
+
+    echo $result8;
 
     echo "<hr>";
 
-    $counter = count($arr);
+    /* 9. Sugeneruokite masyvą iš trijų elementų, kurie yra atsitiktiniai skaičiai nuo 1 iki 33. 
+    Jeigu tarp trijų paskutinių elementų yra nors vienas ne pirminis skaičius, prie masyvo pridėkite dar vieną elementą- 
+    atsitiktinį skaičių nuo 1 iki 33. Vėl patikrinkite pradinę sąlygą ir jeigu reikia pridėkite dar vieną elementą. 
+    Kartokite, kol sąlyga nereikalaus pridėti elemento.*/
+    
+    echo "<h3>Devinta užduotis</h3>";
 
-    $lastArray = [];
+    $array = [];
 
-    $lastArray = createArray(rand(10, 30));
+    for ($i=0; $i < 3; $i++) { 
+        $randomNumber = rand(1, 33);
+        $array[] = $randomNumber;
+    };
 
-    $counter1 = count($lastArray);
+    print_r($array);
+    echo "<hr>";
+    function jeiTuriPirminiuPridet($array){
+        $counter = count($array);
+        $note = 0;
+        for ($i=0; $i < $counter; $i++) {
+            $liekana = dalybaBeLiekanos($array[$i]);
+            if ($liekana == 0) {
+                $note++;
+            }
+        };
+        if ($note > 0) {
+            $random = rand(1, 33);
+            $liekana1 = dalybaBeLiekanos($random);
+            if ($liekana1 == 0) {
+                $array[] = jeiTuriPirminiuPridet($array);
+            }
+            else {
+                $array[] = $random;
+            };
+        } else {
+            $array[] = jeiTuriPirminiuPridet($array);
+        };
+        return $array;
+    };
 
-    $lastArray[count($lastArray)] = 0;
+    $result9 = jeiTuriPirminiuPridet($array);
 
-    $arr[$counter] = $lastArray;
+    print_r($result9);
 
-    print_r($arr);
+    echo "<hr>";
+    /*10. Sugeneruokite masyvą iš 10 elementų, kurie yra masyvai iš 10 elementų, kurie yra atsitiktiniai skaičiai nuo 1 iki 100. 
+    Jeigu tokio didelio masyvo (ne atskirai mažesnių) pirminių skaičių vidurkis mažesnis už 70, suraskite masyve mažiausią skaičių
+    (nebūtinai pirminį) ir prie jo pridėkite 3. Vėl paskaičiuokite masyvo pirminių skaičių vidurkį ir jeigu mažesnis nei 70 viską kartokite.*/
 
 
     
